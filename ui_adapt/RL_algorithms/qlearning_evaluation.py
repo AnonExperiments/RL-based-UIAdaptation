@@ -19,12 +19,13 @@ def get_discrete_state(state, obsSpaceSize):
     state_idx = np.ravel_multi_index(state, obsSpaceSize)
     return state_idx
 
-# Load the saved Q-table and metrics
-file_path = 'RL_algorithms/models/QLearning_Sigma_0.5_UIAdaptation-v0.pickle'
-
-SIGMA = 0.5
+SIGMA = 1
 
 env_name = "UIAdaptation-v0"
+models_dir = 'RL_algorithms/models'
+filename = "QLearning_Sigma_" + str(SIGMA) + "_" + env_name + ".pickle"
+# Load the saved Q-table and metrics
+file_path = models_dir+"/"+filename
 
 # Create the testing environment
 env = gym.make(env_name)

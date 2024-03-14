@@ -11,16 +11,20 @@ class UIAdaptationEnv(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
     _max_episode_steps = 20
 
-    def __init__(self,render_mode=None):
+    def __init__(self, render_mode=None, 
+                 config_data='config.json',
+                 initialState = None,
+                 ws_client= None, 
+                 ws_server= None):
         self.name = 'uiadaptation'
         
-        self.config = Config()
+        self.config = Config(config_data=config_data)
         self.reward_predictor = RewardPredictor("model.pckl")
 
-        self.user = utils.get_random_user(self.config)
-        self.uidesign = utils.get_random_ui(self.config)
-        self.platform = utils.get_random_platform(self.config)
-        self.environment = utils.get_random_environment(self.config)
+        self.user = utils.get_random_user(self.config, userinfo=initialState)
+        self.uidesign = utils.get_random_ui(self.config, uiDesignInfo=initialState, client_ws=ws_client, server_ws=ws_server)
+        self.platform = utils.get_random_platform(self.config, platforminfo=initialState)
+        self.environment = utils.get_random_environment(self.config, envinfo=initialState)
 
         self.state = self.get_observation()
         self.actions = utils.get_actions(self.config)
@@ -171,10 +175,8 @@ class UIAdaptationEnv(gym.Env):
         '''
         Add here the reward function.
         '''
-        reward = (1 - sigma) * self.general_reward() + sigma * self.individual_reward()
-        # hci_model_prediction = self.reward_predictor.predict(self.uidesign)[0]*10
-        # alignment = alignment * 0.85
-        # total = hci_model_prediction + alignment
+        reward = (1 - sigma) * self.individual_reward() + sigma * self.general_reward()
+        # reward = self.individual_reward()
         return reward
     
     def general_reward(self):

@@ -9,7 +9,8 @@ import ui_adapt
 env_name = "UIAdaptation-v0"
 env = gym.make(env_name)
 
-SIGMA = 0.5
+SIGMA = 0.75
+print(f"TRAINING FOR SIGMA= {SIGMA}")
 
 # How much new info will override old info. 0 means nothing is learned, 1 means only most recent is considered, old knowledge is discarded
 LEARNING_RATE = 0.85
@@ -19,14 +20,14 @@ EPISODES = 60000  # Number of iterations run
 SHOW_EVERY = 2000  # How oftern the current solution is rendered
 UPDATE_EVERY = 150  # How oftern the current progress is recorded
 MAX_STEPS = 20  # Max number of steps to consider it to be a failure
-MAX_STEPS_TARGET = 3  # Max number of steps to consider it to be a failure
+MAX_STEPS_TARGET = 4  # Max number of steps to consider it to be a failure
 
 # Exploration settings
 epsilon = 1  # not a constant, going to be decayed
 START_EPSILON_DECAYING = 1
 END_EPSILON_DECAYING = EPISODES // 2
 epsilon_decay_value = epsilon / (END_EPSILON_DECAYING - START_EPSILON_DECAYING)
-
+MIN_EPSILON = 0.1
 
 # Create bins and Q table
 def create_q_table():
@@ -56,6 +57,7 @@ metrics = {'ep': [], 'avg_step': [], 'min_step': [], 'max_step': [],
            'rolling_averages_eps': [],
            'rolling_averages': []}  # metrics recorded for graph
 
+epsilon_plot = []
 firstEpisode = True
 
 
@@ -111,9 +113,14 @@ for episode in range(EPISODES):
     previousEpsilon.append(epsilon)
     previousAction.append(action)
 
+    epsilon_plot.append(epsilon)
+    
     # Decaying is being done every run if run number is within decaying range
     if END_EPSILON_DECAYING >= episode >= START_EPSILON_DECAYING:
         epsilon -= epsilon_decay_value
+    if epsilon <= MIN_EPSILON:
+        epsilon = MIN_EPSILON
+    
 
     # Append the episode score to the list
     episode_scores.append(reward)
@@ -156,6 +163,15 @@ metrics["rolling_averages"] = rolling_averages
 metrics["rolling_averages_eps"] = rolling_averages_eps
 
 env.close()
+
+
+# Plot the Epsilon:
+plt.plot(epsilon_plot, label=f'Epsilon over time')
+plt.xlabel('Episode')
+plt.ylabel('Rolling Average')
+plt.legend()
+plt.show()
+
 
 
 

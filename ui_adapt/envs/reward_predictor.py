@@ -13,23 +13,23 @@ class RewardPredictor:
     def predict(self, data):
         data = self.prepare_data(data)
         predictions = self.model.predict(data)
+
+        # Apply rounding to avoid large number of decimals
+        # Apply also x1.5 scaling to fit rewards with the 0 to 1 values.
         for i, prediction in enumerate(predictions):
-            predictions[i] = round(prediction, self.number_of_decimals)
+            predictions[i] = predictions[i] * 2 if predictions[i] * 1.5 <= 1 else 1
+            predictions[i] = round(predictions[i], self.number_of_decimals)
         return predictions
     
     def prepare_data(self,data):
         # data is the pointer to the UIDesign class instantiation
-        data_columns = ['theme_dark', 'theme_light', 'language_en', 'language_es', 'display_grid', 'display_list']
+        data_columns = ['theme_dark', 'theme_light', 'display_grid', 'display_list']
         data_values = []
         if data.theme == 'light':
             data_values.extend([0,1])
         elif data.theme == 'dark':
             data_values.extend([1,0])
-        if data.language == 'english':
-            data_values.extend([1,0])
-        elif data.language == 'spanish':
-            data_values.extend([0,1])
-        if data.layout == 'grid':
+        if 'grid' in data.layout:
             data_values.extend([1,0])
         elif data.layout == 'list':
             data_values.extend([0,1])

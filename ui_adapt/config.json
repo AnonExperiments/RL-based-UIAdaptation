@@ -1,18 +1,18 @@
 {
     "USER": {
-        "AGE": ["teen", "young", "adult", "elder"],
-        "GENDER": ["noObt", "male", "female"]
+        "AGE": ["noObt"]
     },
     "PLATFORM": {
-        "DEVICE": ["desktop", "mobile"]
+        "DEVICE": ["noObt"]
     },
     "ENVIRONMENT":{
-        "LOCATION": ["indoor", "outdoor"]
+        "LOCATION": ["noObt"]
     },
     "UIDESIGN": {
-        "LAYOUT": ["list", "grid"],
+        "LAYOUT": ["list", "grid2", "grid3", "grid4", "grid5"],
         "THEME": ["light", "dark"],
-        "LANGUAGE": ["spanish", "english"]
+        "INFORMATION": ["show", "partial", "hide"],
+        "FONT_SIZE": ["small", "default", "big"]
     },
     "ACTIONS": {
         "MODE": "HEADLESS",
@@ -29,34 +29,76 @@
             "api_call": "/adapt list"
         },
         "2": {
-            "name": "Change to Grid",
+            "name": "Change to Grid 2 cols",
             "target": "layout",
-            "value": "grid",
+            "value": "grid2",
             "api_call": "/adapt grid_2"
         },
         "3": {
+            "name": "Change to Grid 3 cols",
+            "target": "layout",
+            "value": "grid3",
+            "api_call": "/adapt grid_3"
+        },
+        "4": {
+            "name": "Change to Grid 4 cols",
+            "target": "layout",
+            "value": "grid4",
+            "api_call": "/adapt grid_4"
+        },
+        "5": {
+            "name": "Change to Grid 5 cols",
+            "target": "layout",
+            "value": "grid5",
+            "api_call": "/adapt grid_5"
+        },
+        "6": {
             "name": "Change to Light theme",
             "target": "theme",
             "value": "light",
             "api_call": "/adapt light"
         },
-        "4": {
+        "7": {
             "name": "Change to Dark theme",
             "target": "theme",
             "value": "dark",
-            "api_call": "/adapt grid_7"
+            "api_call": "/adapt dark"
         },
-        "5": {
-            "name": "Change to English",
-            "target": "language",
-            "value": "english",
-            "api_call": "/adapt en"
+        "8": {
+            "name": "Change to Small font size",
+            "target": "font_size",
+            "value": "small",
+            "api_call": "/adapt small"
         },
-        "6": {
-            "name": "Change to Spanish",
-            "target": "language",
-            "value": "spanish",
-            "api_call": "/adapt spanish"
+        "9": {
+            "name": "Change to Default font size",
+            "target": "font_size",
+            "value": "default",
+            "api_call": "/adapt default"
+        },
+        "10": {
+            "name": "Change to Big font size",
+            "target": "font_size",
+            "value": "big",
+            "api_call": "/adapt big"
+        },
+        "11": {
+            "name": "Change to Show information",
+            "target": "information",
+            "value": "show",
+            "api_call": "/adapt show"
+        },
+        "12": {
+            "name": "Change to Partial information",
+            "target": "information",
+            "value": "partial",
+            "api_call": "/adapt partial"
+        },
+        "13": {
+            "name": "Change to Hide information",
+            "target": "information",
+            "value": "hide",
+            "api_call": "/adapt hide"
         }
     },
     "API_CONNECTION": {
@@ -73,7 +115,7 @@
         },
         "ACTIONS_INFO": "The ID should always be numeric and incremental. Don't leave any gap."
     },
-    "TBD_PREFERENCES":{
+    "user_prefs":{
         "layout": "list",
         "theme": "light",
         "language": "spanish"

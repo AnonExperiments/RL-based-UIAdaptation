@@ -117,8 +117,7 @@
     },
     "user_prefs":{
         "layout": "list",
-        "theme": "light",
-        "language": "spanish"
+        "theme": "light"
     }
   }
   
